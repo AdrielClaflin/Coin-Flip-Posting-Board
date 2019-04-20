@@ -1,0 +1,8 @@
+{
+  "name": "mapApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "a3eb78ff"
+}

@@ -17,7 +17,8 @@ export class AddPage implements OnInit {
     latitude: 0,
     longitude: 0,
     title: '',
-    picture: ''
+    picture: '',
+    category: 0
   }
 
   constructor(private geolocation: Geolocation, private camera: Camera, public firebaseService: FirebaseService) { }
@@ -30,21 +31,22 @@ export class AddPage implements OnInit {
       console.log('Error getting location', error);
     });
   }
-addLocation(location: Location){
-  this.firebaseService.addLocation(location);
-}
-openCamera(){
-  const options: CameraOptions = {
-    quality: 50,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-  }
-  this.camera.getPicture(options).then((imageData) => {
-    this.base64Image = "data:image/jpeg;base64," + imageData;
-    this.location.picture = this.base64Image;
-  }, (err) => {
-  });
-}
 
+  addLocation(location: Location) {
+    this.firebaseService.addLocation(location);
+  }
+
+  openCamera() {
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      this.base64Image = "data:image/jpeg;base64," + imageData;
+      this.location.picture = this.base64Image;
+    }, (err) => {
+    });
+  }
 }

@@ -4,7 +4,7 @@
       Map
     </ion-title>
     <ion-buttons slot="start">
-        <ion-back-button defaultHref="/pages/login"></ion-back-button>
+      <ion-back-button defaultHref="/pages/login"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,13 +13,16 @@
   <div #map id="map"></div>
   <ion-list>
     <ion-list-header>
-    Locations:
+      <div id="filter">
+        Locations: Show All
+      </div>
+      <ion-button (click)="openActionSheet()">Filter</ion-button>
     </ion-list-header>
-      <ion-item
-        *ngFor="let location of locationsList$ | async"
-        (click)="assignLocation(location)"
-        [routerLink]="['/list', locationTitle]" routerDirection="forward">
-          {{location.title}}
+    <div id="locations">
+      <ion-item *ngFor="let location of locationsList$ | async" (click)="assignLocation(location)"
+        [routerLink]="['/list', locationTitle]">
+        {{location.title}}
       </ion-item>
-    </ion-list>
+    </div>
+  </ion-list>
 </ion-content>

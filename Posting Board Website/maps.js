@@ -1,6 +1,6 @@
+var map, infoWindow;
 
-var map, infoWindow
-
+var gmarkers = [];
 
 var initialPos = {
   lat: -34.398,
@@ -37,7 +37,6 @@ function initMap() {
 }
 
 function addMarker(map, location) {
-  //TODO: custom marker images
   var categories = [
     ["Car Crash", "pink-dot.png"],
     ["Closed", "yellow-dot.png"],
@@ -57,8 +56,9 @@ function addMarker(map, location) {
       url: "http://maps.google.com/mapfiles/ms/icons/" + categories[location.category][1]
     }
   });
+  gmarkers.push([marker, location.category]);
 
-  var contentString = 
+  var contentString =
     '<div class="info-window" id="clickableItem" >' +
       '<h3>' + location.title + '</h3>' +
       '<p>' + categories[location.category][0] + '</p>' +
@@ -75,7 +75,6 @@ function addMarker(map, location) {
   marker.addListener('click', function () {
     infoWindow.open(map, marker);
   });
-  //infoWindow.addListener('click', loadViewPage() );
 
   google.maps.event.addListener(infoWindow, 'domready', function () {
     //now my elements are ready for dom manipulation
@@ -93,4 +92,11 @@ function loadViewPage(location) {
   localStorage.setItem("currentLocCategory", location.category);
 
   window.location = "info.html";
+}
+
+function changeCategories(int) {
+  for (i = 0; i < gmarkers.length; i++) {
+    if (int >= 0) gmarkers[i][0].setVisible(int == gmarkers[i][1]);
+    else gmarkers[i][0].setVisible(true);
+  }
 }

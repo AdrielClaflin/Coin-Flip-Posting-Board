@@ -154,7 +154,12 @@ export class HomePage implements OnInit {
   async openActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Filters',
-      buttons: [{
+      buttons: [
+      {
+        text: 'Highest Rated',
+        handler: () => this.changeCategories(-2)
+      },
+      {
         text: 'Show All',
         handler: () => this.changeCategories(-1)
       }, {
@@ -172,9 +177,6 @@ export class HomePage implements OnInit {
       }, {
         text: 'Speed Trap',
         handler: () => this.changeCategories(4)
-      }, {
-        text: 'Highest Rated',
-        handler: () => this.changeCategories(5)
       }]
     });
     await actionSheet.present();
@@ -184,7 +186,7 @@ export class HomePage implements OnInit {
     var tempArray = [];
     for (let i in this.currentLocArray) {
       var segment =
-        '<ion-item id="list:' + i + '" style="margin-top: 0px; margin-bottom: 0px;">' +
+        '<ion-item id="list:' + i + '" sytle="margin-top: 0px; margin-bottom: 0px;">' +
           this.currentLocArray[i].title +
         '</ion-item>'
       tempArray.push(segment);

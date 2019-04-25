@@ -5,5 +5,6 @@ export interface Location {
   longitude: number,
   title: string,
   picture: string,
-  category: number
+  category: number,
+  rating: number
 }

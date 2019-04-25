@@ -18,7 +18,8 @@ export class AddPage implements OnInit {
     longitude: 0,
     title: '',
     picture: '',
-    category: 0
+    category: 0,
+    rating: 0
   }
 
   constructor(private geolocation: Geolocation, private camera: Camera, public firebaseService: FirebaseService) { }

@@ -203,12 +203,4 @@ export class HomePage implements OnInit {
       });
     }
   }
-
-  upVote() {
-    this.LocArray[7] ++;
-  }
-
-  downVote() {
-    this.LocArray[7] --;
-  }
 }

@@ -47,4 +47,14 @@ export class ListPage implements OnInit {
       // Handle error
       });
     }
+    
+  upVote() {
+    this.location.rating ++;
+    this.firebaseService.editLocation(this.location);
+  }
+
+  downVote() {
+    this.location.rating --;
+    this.firebaseService.editLocation(this.location);
+  }
 }

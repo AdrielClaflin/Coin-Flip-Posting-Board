@@ -172,6 +172,9 @@ export class HomePage implements OnInit {
       }, {
         text: 'Speed Trap',
         handler: () => this.changeCategories(4)
+      }, {
+        text: 'Highest Rated',
+        handler: () => this.changeCategories(5)
       }]
     });
     await actionSheet.present();

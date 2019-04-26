@@ -18,11 +18,11 @@ export class HomePage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   public base64Image: string;
   categories: any[] = [
-    ["Car Crash", "pink-dot.png"],
-    ["Closed", "yellow-dot.png"],
-    ["Detour", "orange-dot.png"],
-    ["Power Outage", "red-dot.png"],
-    ["Speed Trap", "blue-dot.png"]
+    ["Car Crash", "pink.png"],
+    ["Closed", "lightPurp.png"],
+    ["Detour", "darkPurp.png"],
+    ["Power Outage", "lightBlue.png"],
+    ["Speed Trap", "darkBlue.png"]
   ];
   gmarkers = [];
   locationsList$: Observable<Location[]>;
@@ -83,9 +83,7 @@ export class HomePage implements OnInit {
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: latLng,
-      icon: {
-        url: "http://maps.google.com/mapfiles/ms/icons/" + this.categories[location.category][1]
-      }
+      icon: 'assets/img/' + this.categories[location.category][1]
     });
     this.gmarkers.push([marker, location.category]);
 

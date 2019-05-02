@@ -3,7 +3,7 @@ import { Location } from '../../models/location.model';
 import { FirebaseService } from '../../services/firebase.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -22,7 +22,7 @@ export class AddPage implements OnInit {
     rating: 0
   }
 
-  constructor(private geolocation: Geolocation, private camera: Camera, public firebaseService: FirebaseService) { }
+  constructor(private geolocation: Geolocation, private camera: Camera, public firebaseService: FirebaseService, private router: Router) { }
 
   ngOnInit() {
     this.geolocation.getCurrentPosition().then(pos => {

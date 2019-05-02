@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
   locationsList$: Observable<Location[]>;
   LocArray = [];
   currentLocArray = [];
+  curCategory = -1;
   map: any;
   position: any;
   locationKey: any;
@@ -42,7 +43,7 @@ export class HomePage implements OnInit {
     });
     this.locationsList$.subscribe(locations => {
       this.currentLocArray = locations,
-      this.LocArray = locations
+        this.LocArray = locations
     });
   }
 
@@ -72,7 +73,6 @@ export class HomePage implements OnInit {
       }));
     });
     this.locationsList$.subscribe(locations => {
-      this.currentLocArray = locations,
       this.LocArray = locations
     });
   }
@@ -131,81 +131,76 @@ export class HomePage implements OnInit {
     });
   }
 
+  async openActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Filters',
+      buttons: [
+        {
+          text: 'Highest Rated',
+          handler: () => this.changeCategories(-2)
+        },
+        {
+          text: 'Show All',
+          handler: () => this.changeCategories(-1)
+        }, {
+          text: 'Car Crash',
+          handler: () => this.changeCategories(0)
+        }, {
+          text: 'Closed',
+          handler: () => this.changeCategories(1)
+        }, {
+          text: 'Detour',
+          handler: () => this.changeCategories(2)
+        }, {
+          text: 'Power Outage',
+          handler: () => this.changeCategories(3)
+        }, {
+          text: 'Speed Trap',
+          handler: () => this.changeCategories(4)
+        }]
+    });
+    await actionSheet.present();
+  }
+
   changeCategories(int: number) {
+    while (this.gmarkers.length > this.LocArray.length) {
+      this.gmarkers[0][0].setMap(null);
+      this.gmarkers.splice(0, 1);
+    }
+    this.curCategory = int;
     var tempArray = [];
     for (let i in this.gmarkers) {
-      if (int >= 0 && int != this.gmarkers[i][1]) this.gmarkers[i][0].setVisible(false);
+      if (int >= 0 && int != this.gmarkers[Number(i)][1]) this.gmarkers[i][0].setVisible(false);
       else {
         this.gmarkers[i][0].setVisible(true);
         tempArray.push(this.LocArray[i]);
       }
     }
-    this.firebaseService.setCurrentLocation(tempArray[tempArray.length-1]);
+
+    if (int == -2) {
+      var newTempArray = tempArray;
+      tempArray = [];
+      while (newTempArray.length > 0) {
+          var currMaxRating = null;
+          var found;
+          for (let i in newTempArray) {
+            if (currMaxRating == null || Number(currMaxRating.rating) < Number(newTempArray[i].rating)){
+              currMaxRating = newTempArray[i];
+              found = i;
+            }
+          }
+          tempArray.push(newTempArray[found]);
+          newTempArray.splice(found, 1);
+      }
+    }
+    
+    this.firebaseService.setCurrentLocation(tempArray[tempArray.length - 1]);
 
     this.currentLocArray = tempArray;
     var f = document.getElementById('filter');
     f.innerHTML = (int >= 0) ? 'Locations: ' + this.categories[int][0] : 'Locations: Show All';
 
-    if (int == -2) {
-      var stop = 60
-      var newTempArray = tempArray;
-      tempArray = [];
-      while (newTempArray.length > 0) {
-          var currMaxRating;
-          var found;
-          for (let i in newTempArray) {
-            if (currMaxRating == null || currMaxRating.rating < newTempArray[i].rating){
-              currMaxRating = newTempArray[i];
-              console.log("got here");
-              found = i;
-              console.log(currMaxRating.rating)
-            }
-          }
-          tempArray.push(newTempArray[found]);
-          newTempArray.splice(found, 1);
-          console.log(newTempArray.length);
-          console.dir(newTempArray);
-          console.log("got here 2");
-          stop--;
-          if(stop==0) break;
-      }
-      console.log(tempArray);
-      console.log("FUCK YOUUUUU")
-    }
-
     this.addLocations();
-    
-  }
-
-  async openActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Filters',
-      buttons: [
-      {
-        text: 'Highest Rated',
-        handler: () => this.changeCategories(-2)
-      },
-      {
-        text: 'Show All',
-        handler: () => this.changeCategories(-1)
-      }, {
-        text: 'Car Crash',
-        handler: () => this.changeCategories(0)
-      }, {
-        text: 'Closed',
-        handler: () => this.changeCategories(1)
-      }, {
-        text: 'Detour',
-        handler: () => this.changeCategories(2)
-      }, {
-        text: 'Power Outage',
-        handler: () => this.changeCategories(3)
-      }, {
-        text: 'Speed Trap',
-        handler: () => this.changeCategories(4)
-      }]
-    });
-    await actionSheet.present();
   }
 
   addLocations() {
@@ -213,7 +208,7 @@ export class HomePage implements OnInit {
     for (let i in this.currentLocArray) {
       var segment =
         '<ion-item id="list:' + i + '" sytle="margin-top: 0px; margin-bottom: 0px;">' +
-          this.currentLocArray[i].title +
+        this.currentLocArray[i].title +
         '</ion-item>'
       tempArray.push(segment);
     }
@@ -228,5 +223,9 @@ export class HomePage implements OnInit {
         this.router.navigate(['/list', this.locationTitle]);
       });
     }
+  }
+  
+  loadAddPage() {
+    this.router.navigate(['../add']);
   }
 }

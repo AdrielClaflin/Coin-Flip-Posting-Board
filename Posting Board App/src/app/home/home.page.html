@@ -1,23 +1,32 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Map
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/pages/login"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Map
+      </ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/pages/login"></ion-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <div #map id="map"></div>
+  <ion-list-header>
+    <div id="filter">
+      Locations: Show All
+    </div>
+    <ion-button (click)="openActionSheet()">Filter</ion-button>
+  </ion-list-header>
 </ion-header>
 
+<ion-fab vertical="top" horizontal="end" edge slot="fixed" style="top:6px;">
+  <ion-fab-button (click)="loadAddPage()" routerLink="../add" routerDirection="forward" style="width: 45px; height: 45px;">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
 <ion-content>
-  <div #map id="map"></div>
   <ion-list>
-    <ion-list-header>
-      <div id="filter">
-        Locations: Show All
-      </div>
-      <ion-button (click)="openActionSheet()">Filter</ion-button>
-    </ion-list-header>
     <div id="locations">
       <ion-item *ngFor="let location of locationsList$ | async" (click)="assignLocation(location)"
         [routerLink]="['/list', locationTitle]">

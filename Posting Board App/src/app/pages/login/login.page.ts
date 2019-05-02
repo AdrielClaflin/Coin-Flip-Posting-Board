@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +12,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
-loadMapPage(){
-  this.router.navigate(['../home']);
-}
-
+  
+  loadMapPage() {
+    this.router.navigate(['../home']);
+  }
 }

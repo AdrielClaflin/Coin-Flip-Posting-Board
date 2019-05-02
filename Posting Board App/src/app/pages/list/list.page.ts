@@ -48,13 +48,8 @@ export class ListPage implements OnInit {
       });
     }
     
-  upVote() {
-    this.location.rating ++;
-    this.firebaseService.editLocation(this.location);
-  }
-
-  downVote() {
-    this.location.rating --;
+  changeRating(int) {
+    this.location.rating += int;
     this.firebaseService.editLocation(this.location);
   }
 }

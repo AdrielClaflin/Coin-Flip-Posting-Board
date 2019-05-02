@@ -146,7 +146,35 @@ export class HomePage implements OnInit {
     var f = document.getElementById('filter');
     f.innerHTML = (int >= 0) ? 'Locations: ' + this.categories[int][0] : 'Locations: Show All';
 
+    if (int == -2) {
+      var stop = 60
+      var newTempArray = tempArray;
+      tempArray = [];
+      while (newTempArray.length > 0) {
+          var currMaxRating;
+          var found;
+          for (let i in newTempArray) {
+            if (currMaxRating == null || currMaxRating.rating < newTempArray[i].rating){
+              currMaxRating = newTempArray[i];
+              console.log("got here");
+              found = i;
+              console.log(currMaxRating.rating)
+            }
+          }
+          tempArray.push(newTempArray[found]);
+          newTempArray.splice(found, 1);
+          console.log(newTempArray.length);
+          console.dir(newTempArray);
+          console.log("got here 2");
+          stop--;
+          if(stop==0) break;
+      }
+      console.log(tempArray);
+      console.log("FUCK YOUUUUU")
+    }
+
     this.addLocations();
+    
   }
 
   async openActionSheet() {

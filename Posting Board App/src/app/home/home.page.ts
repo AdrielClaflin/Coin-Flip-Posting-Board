@@ -75,6 +75,7 @@ export class HomePage implements OnInit {
     this.locationsList$.subscribe(locations => {
       this.LocArray = locations
     });
+    this.changeCategories(this.curCategory);
   }
 
   addMarker(location: any) {
